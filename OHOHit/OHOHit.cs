@@ -47,7 +47,6 @@ namespace OHOHit
                 for (int i = 0; i < filesHit.Length; i++)
                 {
                     CoreSystem.createSound(filesHit[i], MODE._3D, out hitAudios[i]);
-                    hitAudios[i].set3DMinMaxDistance(Setting.AudioMinDistance, Setting.AudioMaxDistance);
                     hitAudios[i].setSoundGroup(soundHitGroup);
                 }
 
@@ -56,7 +55,6 @@ namespace OHOHit
                 for(int i = 0;i < filesDead.Length; i++)
                 {
                     CoreSystem.createSound(filesDead[i], MODE._3D, out deadAudios[i]);
-                    deadAudios[i].set3DMinMaxDistance(Setting.AudioMinDistance, Setting.AudioMaxDistance);
                     deadAudios[i].setSoundGroup(soundDeadGroup);
                 }
             }
@@ -70,6 +68,7 @@ namespace OHOHit
             if (!ModSettingAPI.Init(info)) return;
             Setting.Init();
             AddUI();
+            SetAudioDistance();
         }
 
         protected override void OnBeforeDeactivate()
@@ -92,6 +91,8 @@ namespace OHOHit
         {
 
             ModManager.OnModActivated -= ModManager_OnModActivated;
+            Setting.OnHitSoundVolumeChanged -= HitVolumeChange;
+            Setting.OnDeadSoundVolumeChanged -= DeadVolumeChange;
 
         }
         void Awake()
@@ -127,8 +128,6 @@ namespace OHOHit
         {
             Vector3 hitPoint = health.transform.position;
             hitPoint.y += 1.0f;
-            Debug.Log($"受到了伤害：{damageInfo.damageValue}");
-            Debug.Log($"是否暴击：{damageInfo.crit}");
             switch (damageInfo.crit)
             {
                 case 0 when damageInfo.damageValue < Setting.DamageThreshold:
@@ -282,6 +281,7 @@ namespace OHOHit
             //先从ModSetting中读取配置
             Setting.Init();
             AddUI();
+            SetAudioDistance();
         }
         private void SetAudioDistance()
         {

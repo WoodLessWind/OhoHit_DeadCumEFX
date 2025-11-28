@@ -65,8 +65,8 @@ namespace OHOHit
                 OHoInterval = ModSettingAPI.GetSavedValue("OHoInterval", out float t7) ? t7 : 0.5f;
                 OhoHitEfx = ModSettingAPI.GetSavedValue("OhoHitEfx", out string d1) ? d1 : "哦齁特效";
                 OhoDeadEfx = ModSettingAPI.GetSavedValue("OhoDeadEfx", out string d2) ? d2 : "正常死亡特效";
-                DeadSoundVolume = ModSettingAPI.GetSavedValue("DeadSoundVolume", out float t8) ? t8 : 1f;
-                HitSoundVolume = ModSettingAPI.GetSavedValue("HitSoundVolume", out float t4) ? t4 : 1f;
+                DeadSoundVolume = ModSettingAPI.GetSavedValue("DeadSoundVolume", out float t8) ? t8 : 100f;
+                HitSoundVolume = ModSettingAPI.GetSavedValue("HitSoundVolume", out float t4) ? t4 : 100f;
                 AudioMinDistance = ModSettingAPI.GetSavedValue("AudioMinDistance", out float t9) ? t9 : 0.8f;
                 AudioMaxDistance = ModSettingAPI.GetSavedValue("AudioMaxDistance", out float t10) ? t10 : 5f;
             }
