@@ -18,6 +18,8 @@ namespace OHOHit
         public static bool DisableDeadSound { get; private set; }
         public static float DamageThreshold { get; private set; }
         public static float OHoInterval { get; private set; }
+        public static float AudioMinDistance { get; private set; }
+        public static float AudioMaxDistance { get; private set; }
         public static void SetOhoHitEfx(string value) => OhoHitEfx = value;
         public static void SetOhoDeadEfx(string value) => OhoDeadEfx = value;
         public static void SetOnlyOHOSelfThreshold(float value) => OnlyOHOSelfThreshold = value;
@@ -25,6 +27,8 @@ namespace OHOHit
         public static void SetDamageThreshold(float value) =>DamageThreshold = value;
         public static void SetDontOhoSoFast(bool value) => DontOhoSoFast = value;
         public static void SetOHoInterval(float value) => OHoInterval = value;
+        public static void SetAudioMinDistance(float value)=>AudioMinDistance = value;
+        public static void SetAudioMaxDistance(float value) => AudioMaxDistance = value;
         public static event Action<float> OnHitSoundVolumeChanged;
         public static void SetHitSoundVolume(float value)
         {
@@ -63,6 +67,8 @@ namespace OHOHit
                 OhoDeadEfx = ModSettingAPI.GetSavedValue("OhoDeadEfx", out string d2) ? d2 : "正常死亡特效";
                 DeadSoundVolume = ModSettingAPI.GetSavedValue("DeadSoundVolume", out float t8) ? t8 : 1f;
                 HitSoundVolume = ModSettingAPI.GetSavedValue("HitSoundVolume", out float t4) ? t4 : 1f;
+                AudioMinDistance = ModSettingAPI.GetSavedValue("AudioMinDistance", out float t9) ? t9 : 0.8f;
+                AudioMaxDistance = ModSettingAPI.GetSavedValue("AudioMaxDistance", out float t10) ? t10 : 5f;
             }
             else
             {
@@ -77,6 +83,8 @@ namespace OHOHit
                 OnlyOHOSelfThreshold = 35f;
                 HitSoundVolume = 100f;
                 DeadSoundVolume = 100f;
+                AudioMinDistance = 0.8f;
+                AudioMaxDistance = 5f;
             }
         }
     }

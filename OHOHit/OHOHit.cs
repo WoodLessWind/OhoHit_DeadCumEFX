@@ -47,7 +47,7 @@ namespace OHOHit
                 for (int i = 0; i < filesHit.Length; i++)
                 {
                     CoreSystem.createSound(filesHit[i], MODE._3D, out hitAudios[i]);
-                    hitAudios[i].set3DMinMaxDistance(0.8f, 5f);
+                    hitAudios[i].set3DMinMaxDistance(Setting.AudioMinDistance, Setting.AudioMaxDistance);
                     hitAudios[i].setSoundGroup(soundHitGroup);
                 }
 
@@ -56,7 +56,7 @@ namespace OHOHit
                 for(int i = 0;i < filesDead.Length; i++)
                 {
                     CoreSystem.createSound(filesDead[i], MODE._3D, out deadAudios[i]);
-                    deadAudios[i].set3DMinMaxDistance(0.8f, 5f);
+                    deadAudios[i].set3DMinMaxDistance(Setting.AudioMinDistance, Setting.AudioMaxDistance);
                     deadAudios[i].setSoundGroup(soundDeadGroup);
                 }
             }
@@ -111,6 +111,9 @@ namespace OHOHit
             ModSettingAPI.AddToggle("HitSound", "关闭击中音效", Setting.DisableHitSound, Setting.SetDisableHitSound);
             ModSettingAPI.AddSlider("DeadSoundVolume", "死亡音效音量", Setting.DeadSoundVolume, new Vector2(0, 100), Setting.SetDeadSoundVolume);
             ModSettingAPI.AddToggle("DeadSound", "关闭死亡音效", Setting.DisableDeadSound, Setting.SetDisableHitSound);
+            ModSettingAPI.AddSlider("AudioMinDistance", "最小衰减距离", Setting.AudioMinDistance, new Vector2(0, 100), Setting.SetAudioMinDistance);
+            ModSettingAPI.AddSlider("AudioMaxDistance", "最大衰减距离", Setting.AudioMaxDistance, new Vector2(0, 100), Setting.SetAudioMaxDistance);
+            ModSettingAPI.AddButton("SetAudioDistance", "最小衰减距离是你能听到最大音量的距离，最大衰减距离是从最小衰减距离开始逐渐衰减至0的距离", "应用音频距离", SetAudioDistance);
             ModSettingAPI.AddDropdownList("OhoHitEfx", "选择击中特效", new List<string> { "关闭特效", "关闭哦齁特效", "哦齁特效" }, Setting.OhoHitEfx, Setting.SetOhoHitEfx);
             ModSettingAPI.AddDropdownList("OhoDeadEfx", "选择死亡特效", new List<string> { "关闭特效", "正常死亡特效", "大型死亡特效" }, Setting.OhoDeadEfx, Setting.SetOhoDeadEfx);
             ModSettingAPI.AddSlider("DamageThreshold", "触发伤害阈值:直接输入→", Setting.DamageThreshold, new Vector2(0, 10000), Setting.SetDamageThreshold);
@@ -118,6 +121,7 @@ namespace OHOHit
             ModSettingAPI.AddToggle("OhoSelf", "我只想我自己哦齁", Setting.OnlyOHOSelf, Setting.SetOnlyOHOSelf);
             ModSettingAPI.AddToggle("DontOhoSoFast", "别齁那么快，来点间隔", Setting.DontOhoSoFast, Setting.SetDontOhoSoFast);
             ModSettingAPI.AddSlider("OHoInterval", "间隔时间:/秒", Setting.OHoInterval, new Vector2(0, 10), Setting.SetOHoInterval);
+
         }
         private void OhoHitEfx(Health health,DamageInfo damageInfo)
         {
@@ -278,6 +282,17 @@ namespace OHOHit
             //先从ModSetting中读取配置
             Setting.Init();
             AddUI();
+        }
+        private void SetAudioDistance()
+        {
+            for (int i = 0; i < hitAudios.Length; i++)
+            {
+                hitAudios[i].set3DMinMaxDistance(Setting.AudioMinDistance, Setting.AudioMaxDistance);
+            }
+            for (int i = 0; i < deadAudios.Length; i++)
+            {
+                deadAudios[i].set3DMinMaxDistance(Setting.AudioMinDistance, Setting.AudioMaxDistance);
+            }
         }
         private void LoadAssetBundles()
         {
